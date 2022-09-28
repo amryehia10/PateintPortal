@@ -1,0 +1,153 @@
+﻿@using PatientPortal.Models
+@model List<Patientvm>
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Patients";
+}
+
+<p class="text-right">
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table id ="PatientTable" class="table table-sm">
+    <thead>
+        <tr>
+            <th scope="col">PName</th>
+            <th scope="col">BirthDate</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Address</th>
+            <th scope="col">Country</th>
+        </tr>
+    </thead>
+    @if (Model != null && Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Addres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country.CName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Patient", routeValues: new { id = item.PID }, htmlAttributes: null) |
+                @Html.ActionLink("Delete", "DeletePatient", new { Patientid = item.PID }, new { onclick = "return confirm('Are sure wants to delete?');" })
+            </td>
+        </tr>
+                }
+            }
+</table>
+
+<link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
+
+    <script>
+
+
+      $(document).ready(function () {
+          var Popup, dataTable;
+            dataTable =  $("#PatientTable").DataTable({
+
+                "ajax": {
+
+                    "url": "/Patient/GetData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+
+                "columns": [
+                    { "data": "PName" },
+                    { "data": "BirthDateString" },
+                    { "data": "Gender" },
+                    { "data": "Phone" },
+                    { "data": "Addres" },
+                    { "data": "CountryName" }
+
+                ],
+
+                "language": {
+                    "emptyTable": "No data found please click on <b>Create New </b> Button"
+                }
+
+            });
+
+                  function Delete(id) {
+
+
+                $.ajax({
+
+                    type: "Get",
+                    url: "@Url.Action("DeletePatient", "Patient")" +"?Patientid=" + id,
+                    success: function (data) {
+
+                        if (data.success) {
+
+                            dataTable.ajax.reload();
+
+                            //$.notify(data.message, {
+                            //    globalPosition: "top center",
+                            //    className: "success"
+                            //})
+
+                        }
+                    }
+
+                });
+
+        }
+
+        //function SubmitForm(form) {
+
+        //    $.validator.unobtrusive.parse(form);
+        //    if ($(form).valid()) {
+
+        //        $.ajax({
+        //            type: "POST",
+        //            url: form.action,
+        //            data: $(form).serialize(),
+        //            success: function (data) {
+
+        //                if (data.success) {
+
+        //                    Popup.dialog('close');
+        //                    dataTable.ajax.reload();
+
+        //                    $.notify(data.message, {
+        //                        globalPosition: "top center",
+        //                        className: "success"
+        //                    })
+
+
+        //                }
+        //            }
+        //        });
+        //    }
+
+        //    return false;
+
+        //}
+    </script>
+}

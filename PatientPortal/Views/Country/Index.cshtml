@@ -1,0 +1,37 @@
+﻿@using PatientPortal.Models
+@model List<Country>
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Countries";
+}
+
+<p class="text-right">
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th scope="col">Country</th>
+        </tr>
+    </thead>
+    @if (Model != null && Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.CName)
+    </td>
+    <td>
+        @Html.ActionLink("Delete", "DeleteCountry", "Country", routeValues: new { Countryid = item.CID }, htmlAttributes: null)
+    </td>
+</tr>
+        }
+    }
+</table>

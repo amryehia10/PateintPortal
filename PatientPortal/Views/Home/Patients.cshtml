@@ -1,0 +1,58 @@
+﻿@using PatientPortal.Models
+@model List<Patient>
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Patients";
+}
+
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th scope="col">PID</th>
+            <th scope="col">PName</th>
+            <th scope="col">BirthDate</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Address</th>
+            <th scope="col">CID</th>
+        </tr>
+    </thead>
+    @if (Model != null && Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BirthDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Gender)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Phone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Addres)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CID)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.PID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.PID })
+                        </td>
+                    </tr>
+                }
+     }
+</table>
