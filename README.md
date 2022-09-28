@@ -1,1 +1,1 @@
-# PateintPortal
+# PatientPortal
